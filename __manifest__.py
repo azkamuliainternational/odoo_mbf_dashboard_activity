@@ -28,6 +28,11 @@
        
         'views/mail_activity_view.xml',
     ],
+     'qweb': [
+        'static/src/xml/activity.xml',
+        ],
+    
+    
     # only loaded in demonstration mode
     # 'demo': [
     #     'demo/demo.xml',

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+     <template id="assets_backend" name="mail assets" inherit_id="web.assets_backend">
+              
+
+ <script type="text/javascript" src="/mbf_dashboard_activity/static/src/js/activity.js"></script>
+
+       </template>
+     </data>
+</odoo>

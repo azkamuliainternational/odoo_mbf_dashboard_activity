@@ -20,7 +20,7 @@ class MailActivity(models.Model):
     status = fields.Selection([
         ('op', 'On Progress'),
         ('done', 'Done'),
-        ('cancel', 'Cancel')], 'State',
+        ('cancel', 'Cancel')], 'Status',
         default='op')
     ket = fields.Char(compute="_ket")
 
@@ -127,6 +127,33 @@ class MailActivity(models.Model):
             # re-construct a list based on ids, because set didn't keep order
             id_list = [a_id for a_id in ids if a_id in final_ids]
             return id_list
+    # @api.multi
+    def unlink(self):
+        # for activity in self:
+        #      self.status='cancel'
+        """ Override unlink to delete records activities through (res_model, res_id). """
+        if (self._name=='mail.activity'):
+            for activity in self:
+                self.status='cancel'
+                result=''
+        else :
+            record_ids = self.ids
+            result = super(MailActivityMixin, self).unlink()
+            self.env['mail.activity'].sudo().search(
+                [('res_model', '=', self._name), ('res_id', 'in', record_ids)]
+            ).unlink()
+        return result    
+        
+    def onprogress(self):
+        # for activity in self:
+        #      self.status='cancel'
+        """ Override unlink to delete records activities through (res_model, res_id). """
+        if (self._name=='mail.activity'):
+            for activity in self:
+                self.status='op'
+               
+            
+        
     def action_feedback(self, feedback=False):
         message = self.env['mail.message']
         if feedback:
